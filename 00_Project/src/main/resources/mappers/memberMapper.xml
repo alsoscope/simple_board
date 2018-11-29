@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 다른 mapper와 중복되지 않도록 namespace 기재 -->
+<mapper namespace="member">
+
+	<!-- insert 회원가입 -->
+	<insert id="register_ok" parameterType="java.util.HashMap">
+		INSERT INTO tbl_member(userId, userPw, pwd_CHECK, userName, userEmail)
+		VALUES(#{userId},#{userPw},#{pwd_CHECK},#{userName},#{userEmail})
+	</insert>
+	
+	<update id="memberUpdate" parameterType="java.util.HashMap">
+		UPDATE tbl_member SET userPw=#{userPw},#{pwd_CHECK}, userEmail=#{userEmail},
+		userName=#{userName} WHERE userId=#{userId} 
+	</update>
+	
+	<delete id="memberDelete" parameterType="String">
+		DELETE FROM tbl_member userId=#{userId}
+	</delete>
+	
+	<select id="selectOne" parameterType="String" resultType="java.util.HashMap">
+		SELECT * FROM tbl_member WHERE userId=#{userId}
+	</select>
+	
+	<select id="selectAll" resultType="java.util.HashMap">
+		SELECT * FROM tbl_member
+	</select>
+
+<!--  id중복체크, 회원 수정 폼에 표시할 자료
+	<select id="idCheck" parameterType="String" resultType="com.p.project.model.member.MemberVO">
+		select * from tbl_member where userId=#{userId}
+	</select>
+
+	<select id="loginCheck" resultType="String">
+		SELECT user_name AS userName FROM tbl_member
+		WHERE user_id=#{userId} AND user_Pw=#{userPw}
+	</select>
+
+	<select id="viewMember" resultType="com.p.project.model.member.MemberVO">
+		SELECT user_name AS userName, user_id AS userId, user_email AS userEmail,
+		user_regdate AS userRegdate FROM tbl_member
+		WHERE user_id=#{userId} AND user_pw=#{userPw}
+	</select>
+ -->
+</mapper>
