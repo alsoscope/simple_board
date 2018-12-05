@@ -51,7 +51,7 @@ ${map.count }개의 게시물이 있습니다
 	<c:forEach var="row" items="${list }">
 	<tr>
 		<td>${row.bno }</td>
-		<td><a href="${path }/board/view.do?bno=${row.bno}">${row.title }</a></td>
+		<td><a href="/board/viewPage${pageMaker.makeQuery(pageMaker.cri.page) }&bno=${row.bno}">${row.title }</a></td>
 		<td>${row.writer }</td>
 		<td>
 			<!-- 원하는 날짜형식으로 출력하기 위해 fmt 태그 사용 -->
@@ -62,23 +62,33 @@ ${map.count }개의 게시물이 있습니다
 	</tr>			
 	</c:forEach>
 	
+	<!-- 단순히 게시물의 번호를 전송하는 링크에서 페이지 정보를 유지할 수 있도록 변경됨 -->
 	<div class="text-center">
 		<ul class="pagination">
 			<c:if test="${pageMaker.prev }">
-				<li><a href="listPage?page=${pageMaker.startPage-1 }">&laquo;</a></li>
+				<li><a href="listPage${pageMaker.makeQuery(pageMaker.startPage-1) }">&laquo;</a></li>
 			</c:if>
 			
 			<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
+			
 				<li <c:out value="${pageMaker.cri.page==idx?'class=active':'' }"/>>
-					<a href="listPage?page=${idx }">${idx }</a>			
+					<a href="listPage${pageMaker.makeQuery(idx) }">${idx }</a>			
 				</li>
 			</c:forEach>
 			
 			<c:if test="${pageMaker.next&&pageMaker.endPage>0 }">
-				<li><a href="listPage?page=${pageMaker.endPage+1 }">&raquo;</a></li>
+				<li><a href="listPage${pageMaker.makeQuery(pageMaker.endPage+1) }">&raquo;</a></li>
 			</c:if>
 		</ul>
 	</div>
 </table>
+	
+	<script>
+		var result='${msg}';
+		
+		if(result=='success'){
+			alert("처리가 완료 되었습니다");
+		}
+	</script>
 </body>
 </html>

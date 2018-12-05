@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.p.project.model.BoardVO;
 import com.p.project.model.Criteria;
 import com.p.project.model.PageMaker;
@@ -86,16 +88,20 @@ public class BoardController {
 	
 	//02_02 게시글 작성 처리
 	@RequestMapping(value="insert.do",method=RequestMethod.POST)
-	public String insert(@ModelAttribute BoardVO vo)throws Exception{
+	public String insert(@ModelAttribute BoardVO vo, RedirectAttributes rttr, Model model)throws Exception{
 		boardService.create(vo);
-		return "redirect:list.do";
+
+		//model.addAttribute("result", "success");
+		rttr.addFlashAttribute("msg", "success");
+		return "redirect:listPage.do";
 	}
 	
+	//페이징 처리가 된 후, 조회 페이지는 다시 목록 페이지로 돌아간다. 현재 목록 페이지의 페이지 번호page, 페이지당 데이터수(perPageNum),조회하는 게시물의 번호 bno
 	//03 게시글 상세내용 조회, 게시글 조회수 증가 처리
 	//@RequestParam:get/post 방식으로 전달된 변수 1개
 	//HttpSession 세션 객체
-	@RequestMapping(value="view.do",method=RequestMethod.GET)
-	public String view(@RequestParam int bno, HttpSession session, Model model)throws Exception{
+	@RequestMapping(value="viewPage",method=RequestMethod.GET)
+	public void view(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, Model model, HttpSession session)throws Exception{
 		//조회수 증가 처리
 		boardService.increaseViewcnt(bno, session);
 		
@@ -104,27 +110,34 @@ public class BoardController {
 		mav.addObject("dto",boardService.read(bno)); //뷰에 전달할 데이터*/
 		
 		model.addAttribute("dto", boardService.read(bno));
-		return "board/view";
+		//return "board/viewPage";
 	}
 	
 	//04 게시글 수정
 	//폼에서 입력한 내용들은 @ModelAttribute BoardDTO dto로 전달됨
-	@RequestMapping(value="updateGet.do")
-	public String updateGet(int bno, Model model) throws Exception {
+	@RequestMapping(value="updateGet")
+	public String updateGet(int bno, Model model, @ModelAttribute("cri") Criteria cri) throws Exception {
 		model.addAttribute("dto", boardService.read(bno));
 		return "board/update";
 	}
 	
 	@RequestMapping(value="updatePost",method=RequestMethod.POST)
-	public String update(@ModelAttribute BoardVO vo)throws Exception{
+	public String update(@ModelAttribute BoardVO vo, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr)throws Exception{
 		boardService.update(vo);
-		return "redirect:list.do";
+		rttr.addAttribute("page",cri.getPage());
+		rttr.addAttribute("perPageNum",cri.getPerPageNum());
+		rttr.addFlashAttribute("msg","success");
+		return "redirect:listPage";
 	}
 	
 	//05 게시글 삭제
 	@RequestMapping("delete.do")
-	public String delete(@RequestParam int bno)throws Exception{
+	public String delete(@RequestParam int bno, Criteria cri, RedirectAttributes rttr)throws Exception{
 		boardService.delete(bno);
-		return "redirect:list.do";
+		
+		rttr.addAttribute("page", cri.getPage());
+		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+		rttr.addFlashAttribute("msg", "success");
+		return "redirect:listPage.do";
 	}
 }//BoardController

@@ -1,5 +1,8 @@
 package com.p.project.model;
 
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
 public class PageMaker {
 	private int totalCount;
 	private int startPage;
@@ -32,6 +35,15 @@ public class PageMaker {
 		
 		prev = startPage==1 ? false:true;
 		next = endPage*cri.getPerPageNum()>=totalCount ? false:true;
+	}
+	
+	//스프링MVC의 UriComponentsBuilder를 이용하여 page(페이지 번호),perPageNum(보여지는 데이터의 수 전달)
+	public String makeQuery(int page) {
+		UriComponents uriComponents=UriComponentsBuilder.newInstance()
+				.queryParam("page", page)
+				.queryParam("perPageNum", cri.getPerPageNum())
+				.build();
+		return uriComponents.toUriString();
 	}
 
 	public int getStartPage() {
