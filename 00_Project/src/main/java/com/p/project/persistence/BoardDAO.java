@@ -3,6 +3,7 @@ package com.p.project.persistence;
 import java.util.List;
 import com.p.project.model.BoardVO;
 import com.p.project.model.Criteria;
+import com.p.project.model.SearchCriteria;
 
 //인터페이스
 public interface BoardDAO {
@@ -26,4 +27,8 @@ public interface BoardDAO {
 	public List<BoardVO> listCriteria(Criteria cri)throws Exception;
 	//totalCount 반환하여 실제 페이징 처리
 	public int countPaging(Criteria cri)throws Exception;
+	
+	//검색처리와 동적SQL. 검색과 페이징 처리
+	public List<BoardVO> listSearch(SearchCriteria cri)throws Exception;
+	public int listSearchCount(SearchCriteria cri)throws Exception;
 }

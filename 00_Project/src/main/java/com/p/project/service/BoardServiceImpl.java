@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.p.project.model.BoardVO;
 import com.p.project.model.Criteria;
+import com.p.project.model.SearchCriteria;
 import com.p.project.persistence.BoardDAO;
 
 //인터페이스 구현 클래스. 구현객체.
@@ -118,6 +119,17 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int listCountCriteria(Criteria cri) throws Exception {
 		return boardDao.countPaging(cri);
+	}
+
+	//동적SQL로 검색 처리
+	@Override
+	public List<BoardVO> listSearchCriteria(SearchCriteria cri) throws Exception {
+		return boardDao.listSearch(cri);
+	}
+
+	@Override
+	public int listSearchCount(SearchCriteria cri) throws Exception {
+		return boardDao.listSearchCount(cri);
 	}
 
 }

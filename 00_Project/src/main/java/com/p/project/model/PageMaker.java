@@ -37,11 +37,26 @@ public class PageMaker {
 		next = endPage*cri.getPerPageNum()>=totalCount ? false:true;
 	}
 	
+	//검색 조건이 없는 상황에서 사용하는 메소드
 	//스프링MVC의 UriComponentsBuilder를 이용하여 page(페이지 번호),perPageNum(보여지는 데이터의 수 전달)
 	public String makeQuery(int page) {
 		UriComponents uriComponents=UriComponentsBuilder.newInstance()
 				.queryParam("page", page)
 				.queryParam("perPageNum", cri.getPerPageNum())
+				.build();
+		return uriComponents.toUriString();
+	}
+	
+	//검색처리
+	//searchType, keyword 링크 처리. 페이징 처리와 조회 화면으로 이동해서 사용되는 링크의 정보 수정
+	//적당한 URI에 사용할 문자열(query string)생성
+	//UriComponents를 이용해 페이징 처리에 필요한 데이터를 생성
+	public String makeSearch(int page) {
+		UriComponents uriComponents=UriComponentsBuilder.newInstance()
+				.queryParam("page", page)
+				.queryParam("perPageNum", cri.getPerPageNum())
+				.queryParam("searchType",((SearchCriteria)cri).getSearchType())
+				.queryParam("keyword", ((SearchCriteria)cri).getKeyword())
 				.build();
 		return uriComponents.toUriString();
 	}

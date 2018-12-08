@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 import com.p.project.model.BoardVO;
 import com.p.project.model.Criteria;
+import com.p.project.model.SearchCriteria;
 
 //@Repository 보관소 (Repository) : 퍼시스턴스 계층에서이 애노테이션을 사용해야합니다. 이는 데이터베이스 저장소와 같은 역할을합니다.
 //저장된 모든 proc DB 연결에 @Repository 사용
@@ -99,5 +100,16 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public int countPaging(Criteria cri) throws Exception {
 		return SqlSession.selectOne(namespace+".countPaging",cri);
+	}
+
+	//검색처리-동적SQL, 페이징 처리
+	@Override
+	public List<BoardVO> listSearch(SearchCriteria cri) throws Exception {
+		return SqlSession.selectList("board.listSearch", cri);
+	}
+
+	@Override
+	public int listSearchCount(SearchCriteria cri) throws Exception {
+		return SqlSession.selectOne("board.listSearchCount", cri);
 	}
 }

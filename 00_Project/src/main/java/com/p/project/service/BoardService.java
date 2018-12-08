@@ -4,6 +4,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import com.p.project.model.BoardVO;
 import com.p.project.model.Criteria;
+import com.p.project.model.SearchCriteria;
 import com.p.project.persistence.BoardDAO;;
 
 //비즈니스 계층. 요구사항을 메소드로 정리해서 인터페이스 정의
@@ -28,4 +29,8 @@ public interface BoardService {
 	public List<BoardVO> listCriteria(Criteria cri) throws Exception;
 	//실제 page를 count
 	public int listCountCriteria(Criteria cri) throws Exception;
+	
+	//동적SQL로 검색 처리
+	public List<BoardVO> listSearchCriteria(SearchCriteria cri)throws Exception;
+	public int listSearchCount(SearchCriteria cri)throws Exception;
 }
