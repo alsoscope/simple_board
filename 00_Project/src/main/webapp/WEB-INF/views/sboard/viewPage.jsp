@@ -20,8 +20,8 @@
 			}
 		}); */
 		$("#btnDelete").on("click",function(){
-			formObj.attr("method","get");
-			formObj.attr("action","/board/delete.do");
+			//formObj.attr("method","get");
+			formObj.attr("action","/sboard/delete.do");
 			formObj.submit();
 		});
   		/* $("#btn_update").click(function(){
@@ -31,7 +31,7 @@
 			}
 		}); */
 		$("#btn_update").on("click", function(){
-			formObj.attr("action", "/board/updateGet.do");//.attr(attributeName, value) 2개의 인자는 속성값을 요소에 부여하는 것
+			formObj.attr("action", "/sboard/updateGet.do");//.attr(attributeName, value) 2개의 인자는 속성값을 요소에 부여하는 것
 			formObj.attr("method","get");
 			formObj.submit();
 		});
@@ -58,7 +58,10 @@ document.getElementById('content').value
 	<form role="form" method="post">
 		<input type='hidden' name='bno' value="${dto.bno }">
 		<input type='hidden' name='page' value="${cri.page}">
-		<input type='hidden' name='perPageNum' value="${cri.perPageNum }">	
+		<input type='hidden' name='perPageNum' value="${cri.perPageNum }">
+		
+		<input type="hidden" name="searchType" value="${cri.searchType }">
+		<input type="hidden" name="keyword" value="${cri.keyword }">
 	</form>
 	<!-- <form name="form1" method="post"> -->
 		<div><!-- 원하는 날짜형식으로 출력하기 위해 fmt 태그 사용 -->
@@ -108,9 +111,11 @@ document.getElementById('content').value
 
 		$("#btn_back").on("click", function(){
 			formObj.attr("method","get");
-			formObj.attr("action","/board/listPage");
+			formObj.attr("action","/sboard/searchList");
 			formObj.submit();
 		});
+		
+		$("")
 	});
 	</script>
 

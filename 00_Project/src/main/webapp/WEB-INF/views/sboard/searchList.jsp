@@ -13,7 +13,7 @@
 	$(document).ready(function(){
 		$("#btnWrite").click(function(){
 			//페이지 주소 변경(이동)
-			location.href="write.do";
+			location.href="register.do";
 		});
 	});
 </script>
@@ -113,17 +113,17 @@ ${map.count }개의 게시물이 있습니다
 	<!-- 페이징 처리를 아래와 같이 만들어진 문자열이 적용될 수 있도록 작성 -->
 	<ul class="pagination">
 		<c:if test="${pageMaker.prev }">
-			<li><a href="/sboard/list${pageMaker.makeSearch(pageMaker.startPage-1) }">&laquo;</a></li>
+			<li><a href="/sboard/searchList${pageMaker.makeSearch(pageMaker.startPage-1) }">&laquo;</a></li>
 		</c:if>
 	
 		<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
 			<li <c:out value="${pageMaker.cri.page == idx?'class =active':'' }"/>>
-				<a href="list${pageMaker.makeSearch(idx) }">${idx }</a>
+				<a href="searchList${pageMaker.makeSearch(idx) }">${idx }</a>
 			</li>
 		</c:forEach>
 		
 		<c:if test="${pageMaker.next && pageMaker.endPage>0 }">
-			<li><a href="list${pageMaker.makeSearch(pageMaker.endPage+1) }">&raquo;</a></li>
+			<li><a href="searchList${pageMaker.makeSearch(pageMaker.endPage+1) }">&raquo;</a></li>
 		</c:if>
 	</ul>
 	
