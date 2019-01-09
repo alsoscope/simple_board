@@ -164,6 +164,21 @@
 			<version>1.16</version>
 		</dependency>
 
+		<!-- @ResponseBody JSON타입의 데이터로 객체변환, 또는 그 반대의 작업 JSON이용하는 프로젝트에 반드시 필요한 라이브러리 -->
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.5.1</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.codehaus.jackson</groupId>
+		    <artifactId>jackson-mapper-asl</artifactId>
+		    <version>1.9.13</version>
+		</dependency>
+		<!-- ResponseBody 객체변환 -->
+		
 		<!-- 추가  -->
 		
 	</dependencies>
