@@ -15,7 +15,7 @@
 
 	<update id="update">
 		update tbl_reply set replytext=#{replytext}, updatedate=now()
-		where rnp = #{rno}
+		where rno = #{rno}
 	</update>
 	
 	<delete id="delete">

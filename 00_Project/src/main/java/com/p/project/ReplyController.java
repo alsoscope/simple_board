@@ -24,6 +24,7 @@ public class ReplyController {
 	@Inject
 	private ReplyService service;
 	
+	//1. JSON타입으로 데이터 전송. 댓글등록
 	//ResponseBody annotation : return되는 값은 view가 아닌 HTTP ResponseBody에 직접 쓰여지게 된다
 	@ResponseBody
 	@RequestMapping(value="", method=RequestMethod.POST)
@@ -40,6 +41,7 @@ public class ReplyController {
 		return entity;
 	}//register()--------------------------
 	
+	//2. 전체 댓글 목록 처리
 	@ResponseBody
 	@RequestMapping(value="/all/{bno}", method=RequestMethod.GET)
 	public ResponseEntity<List<ReplyVO>> list(@PathVariable("bno") int bno){
@@ -53,4 +55,23 @@ public class ReplyController {
 		}
 		return entity;
 	}//list()-------------------------------
+	
+	//3. 수정처리 REST방식에서 update 작업은 PUT,PATCH방식으로 처리. 전체 데이터 수정은 PUT, 일부 데이터 수정은 PATCH 
+	@RequestMapping(value="/{rno}", method= {RequestMethod.PUT, RequestMethod.PATCH})
+	public ResponseEntity<String> update(@PathVariable("rno") int rno, @RequestBody ReplyVO vo){
+		ResponseEntity<String> entity=null;
+		
+		try{
+			vo.setRno(rno);
+			service.modifyReply(vo);
+			
+			entity=new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity=new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}//update()---------------------
+	
+	
 }//ReplyController
