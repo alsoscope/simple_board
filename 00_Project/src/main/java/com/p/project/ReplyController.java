@@ -57,6 +57,7 @@ public class ReplyController {
 	}//list()-------------------------------
 	
 	//3. 수정처리 REST방식에서 update 작업은 PUT,PATCH방식으로 처리. 전체 데이터 수정은 PUT, 일부 데이터 수정은 PATCH 
+	@ResponseBody
 	@RequestMapping(value="/{rno}", method= {RequestMethod.PUT, RequestMethod.PATCH})
 	public ResponseEntity<String> update(@PathVariable("rno") int rno, @RequestBody ReplyVO vo){
 		ResponseEntity<String> entity=null;
@@ -73,5 +74,19 @@ public class ReplyController {
 		return entity;
 	}//update()---------------------
 	
-	
+	//4. 삭제. 삭제처리는 PUT과 유사하지만 추가적인 데이터가 없다
+	@ResponseBody
+	@RequestMapping(value="/{rno}", method=RequestMethod.DELETE)
+	public ResponseEntity<String> remove(@PathVariable("rno") int rno){
+		ResponseEntity<String> entity=null;
+		
+		try {
+			service.removeReply(rno);
+			entity=new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity=new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST );
+		}
+		return entity;
+	}//remove() -------------------
 }//ReplyController
