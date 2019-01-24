@@ -1,6 +1,8 @@
 package com.p.project;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.p.project.model.Criteria;
+import com.p.project.model.PageMaker;
 import com.p.project.model.ReplyVO;
 import com.p.project.service.ReplyService;
 
@@ -89,4 +93,36 @@ public class ReplyController {
 		}
 		return entity;
 	}//remove() -------------------
+	
+	//5.페이징 처리. 두 개의 @PathVariable 이용해서 처리
+	@ResponseBody
+	@RequestMapping(value="/{bno}/{page}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> listPage(@PathVariable("bno")int bno, @PathVariable("page") int page){
+		ResponseEntity<Map<String, Object>> entity=null;
+		
+		try {
+			Criteria cri=new Criteria();
+			cri.setPage(page);
+			
+			PageMaker pageMaker=new PageMaker();
+			pageMaker.setCri(cri);
+			
+			Map<String, Object> map=new HashMap<String, Object>();
+			List<ReplyVO> list=service.listReplyPage(bno, cri);
+			
+			map.put("list", list);
+			
+			int replyCount=service.count(bno);
+			pageMaker.setTotalCount(replyCount);
+			
+			map.put("pageMaker", pageMaker);
+			
+			entity=new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity=new ResponseEntity<Map<String,Object>> (HttpStatus.BAD_REQUEST);
+		}  
+		return entity;
+	}//listPage()-------------------
+
 }//ReplyController

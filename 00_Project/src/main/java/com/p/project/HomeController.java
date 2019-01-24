@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Handles requests for the application home page.
@@ -41,4 +42,9 @@ public class HomeController {
 		//return "/board/list";
 	}
 	
+	//화면에서 Ajax 호출(댓글 목록,등록,수정,삭제) 테스트
+	@RequestMapping(value="/test", method=RequestMethod.GET)
+	public void ajaxTest() {
+		
+	}
 }
